@@ -1,0 +1,34 @@
+{
+  "name": "znui-react-filter",
+  "version": "1.0.1",
+  "description": "Web filter component.",
+  "main": "development.js",
+  "scripts": {
+    "webpack-example": "rimraf example/dist && webpack --config webpack.config.example.js",
+    "webpack-example-watch": "rimraf example/dist && webpack --config webpack.config.example.js --watch",
+    "clean-dist": "rimraf dist",
+    "clean-build": "rimraf build",
+    "webpack": "rimraf dist && webpack",
+    "build": "npm run clean-build && babel src -d build",
+    "dist": "npm run clean-dist && webpack --uglify",
+    "release": "npm run build && npm run dist"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/znui/znui-react-filter.git"
+  },
+  "keywords": [
+    "web component",
+    "filter"
+  ],
+  "author": "yangyxu",
+  "email": "xuyy0618@qq.com",
+  "license": "MIT",
+  "dependencies": {
+    "znui-react": "^1.3.10",
+    "znui-react-icon": "^1.0.5",
+    "znui-react-input": "^1.0.3",
+    "znui-react-loader": "^1.0.9",
+    "znui-react-popup": "^1.2.3"
+  }
+}
