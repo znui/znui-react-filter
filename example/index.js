@@ -15,11 +15,6 @@ var Example = React.createClass({
                     { label: '年龄', name: 'age', opt: '=', value: '20' },
                     { label: '性别', name: 'sex', opt: '=', value: '男' }
                 ]} onFilterChange={(event, data, filter)=>console.log(data)} />
-                <filter.TableFilter data={[
-                    { label: '姓名', name: 'name', opt: '=', value: 'yangyxu' },
-                    { label: '年龄', name: 'age', opt: '=', value: '20' },
-                    { label: '性别', name: 'sex', opt: '=', value: '男' }
-                ]} onFilterChange={(event, data, filter)=>console.log(data)} />
                 <filter.FilterField onFilterChange={(event)=>console.log(event)} />
                 <filter.FilterField opts={['=', '%', '!=']} />
             </div>

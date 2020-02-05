@@ -84913,26 +84913,6 @@ var Example = React.createClass({
       onFilterChange: function onFilterChange(event, data, filter) {
         return console.log(data);
       }
-    }), React.createElement(filter.TableFilter, {
-      data: [{
-        label: '姓名',
-        name: 'name',
-        opt: '=',
-        value: 'yangyxu'
-      }, {
-        label: '年龄',
-        name: 'age',
-        opt: '=',
-        value: '20'
-      }, {
-        label: '性别',
-        name: 'sex',
-        opt: '=',
-        value: '男'
-      }],
-      onFilterChange: function onFilterChange(event, data, filter) {
-        return console.log(data);
-      }
     }), React.createElement(filter.FilterField, {
       onFilterChange: function onFilterChange(event) {
         return console.log(event);
