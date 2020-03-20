@@ -9,7 +9,7 @@ var OPTS = {
 	'=<': { text: '小于', value: '=<', icon: 'faLessThanEqual' },
 	'!=': { text: '不等于', value: '!=', icon: 'faNotEqual' },
 	'%': { text: '相似', value: '%', icon: 'faPercent' },
-	'cancel': { text: '取消', value: 'cancel', icon: 'fa-times' }
+	'cancel': { text: '取消', value: 'cancel', icon: 'faTimes' }
 };
 
 module.exports = React.createClass({
@@ -59,11 +59,18 @@ module.exports = React.createClass({
 			return alert('The opt is null.'), false;
 		}
 		if(!event.value) {
-			return alert('The value is null.'), false;
+			this.props.onCancel && this.props.onCancel(this.props.name);
 		}
 		this.props.onFilterChange && this.props.onFilterChange(event, input);
 	},
 	__onOptItemClick: function (opt, index){
+		if(opt.value == 'cancel') {
+			this.setState({
+				icon: 'faFilter',
+				opt: ''
+			});
+			return this.props.onCancel && this.props.onCancel(this.props.name), false;
+		}
 		this.setState({
 			icon: opt.icon,
 			opt: opt.value
@@ -79,19 +86,28 @@ module.exports = React.createClass({
 	},
 	__optItemRender: function (item, index){
 		var _opt = OPTS[item];
-		return <div className={"opt " + (this.state.opt == item ? 'curr' : '')} key={index} onClick={()=>this.__onOptItemClick(_opt, index)} >
-			{_opt.icon && <SVGIcon icon={_opt.icon} />}
-			{_opt.text && <span>{_opt.text}</span>}
-		</div>;
+		if(_opt){
+			return <div className={"opt " + (this.state.opt == item ? 'curr' : '')} key={index} onClick={()=>this.__onOptItemClick(_opt, index)} >
+				{_opt.icon && <SVGIcon icon={_opt.icon} />}
+				{_opt.text && <span>{_opt.text}</span>}
+			</div>;
+		}
 	},
 	__iconClickRender: function (){
 		return <ul className="zr-filter-field-opts">
-			<znui.react.DataView data={this.props.opts} itemRender={this.__optItemRender} />
+			<znui.react.DataView data={[].concat(this.props.opts).concat(['cancel'])} itemRender={this.__optItemRender} />
 		</ul>;
 	},
 	__renderIcon: function (){
 		if(this.state.icon) {
-			return <popup.Dropdown className="filter-opt" popoverRender={this.__iconClickRender} >
+			return <popup.Dropdown 
+				className="filter-opt" 
+				popover={{
+					render: this.__iconClickRender,
+					onWindowInsideContainerEvent: function (event, popover){
+						return true;
+					}
+				}}>
 				<SVGIcon onClick={this.__iconClick} icon={this.state.icon} />
 			</popup.Dropdown>;
 		}
@@ -102,11 +118,16 @@ module.exports = React.createClass({
 		if(this.props.isHidden){
 			return null;
 		}
-		var _Input = this.props.Input || inputs.Input;
+		var _props = zn.extend({}, this.props, {
+			onChange: this.__InputChange,
+			onEnter: this.__InputEnter
+		});
+		
+		var _component = znui.react.createReactElement(_props.component || _props.render || inputs.Input, _props);
 		return (
 			<div className={znui.react.classname("zr-filter-field", this.props.className)} disabled={this.props.disabled}>
 				{this.__renderIcon()}
-				<_Input {...this.props} onChange={this.__InputChange} onEnter={this.__InputEnter} />
+				{ _component }
 			</div>
 		);
 	}
