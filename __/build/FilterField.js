@@ -124,28 +124,28 @@ module.exports = React.createClass({
     var _opt = OPTS[item];
 
     if (_opt) {
-      return React.createElement("div", {
+      return /*#__PURE__*/React.createElement("div", {
         className: "opt " + (this.state.opt == item ? 'curr' : ''),
         key: index,
         onClick: function onClick() {
           return _this.__onOptItemClick(_opt, index);
         }
-      }, _opt.icon && React.createElement(SVGIcon, {
+      }, _opt.icon && /*#__PURE__*/React.createElement(SVGIcon, {
         icon: _opt.icon
-      }), _opt.text && React.createElement("span", null, _opt.text));
+      }), _opt.text && /*#__PURE__*/React.createElement("span", null, _opt.text));
     }
   },
   __iconClickRender: function __iconClickRender() {
-    return React.createElement("ul", {
+    return /*#__PURE__*/React.createElement("ul", {
       className: "zr-filter-field-opts"
-    }, React.createElement(znui.react.DataView, {
+    }, /*#__PURE__*/React.createElement(znui.react.DataView, {
       data: [].concat(this.props.opts).concat(['cancel']),
       itemRender: this.__optItemRender
     }));
   },
   __renderIcon: function __renderIcon() {
     if (this.state.icon) {
-      return React.createElement(popup.Dropdown, {
+      return /*#__PURE__*/React.createElement(popup.Dropdown, {
         className: "filter-opt",
         popover: {
           render: this.__iconClickRender,
@@ -153,7 +153,7 @@ module.exports = React.createClass({
             return true;
           }
         }
-      }, React.createElement(SVGIcon, {
+      }, /*#__PURE__*/React.createElement(SVGIcon, {
         onClick: this.__iconClick,
         icon: this.state.icon
       }));
@@ -173,7 +173,7 @@ module.exports = React.createClass({
 
     var _component = znui.react.createReactElement(_props.component || _props.render || inputs.Input, _props);
 
-    return React.createElement("div", {
+    return /*#__PURE__*/React.createElement("div", {
       className: znui.react.classname("zr-filter-field", this.props.className),
       disabled: this.props.disabled
     }, this.__renderIcon(), _component);

@@ -30,12 +30,12 @@ module.exports = React.createClass({
   __itemRender: function __itemRender(item, index) {
     var _this = this;
 
-    return React.createElement("div", {
+    return /*#__PURE__*/React.createElement("div", {
       key: index,
       className: "filter-item"
-    }, React.createElement("div", {
+    }, /*#__PURE__*/React.createElement("div", {
       className: "item-label"
-    }, item.label), React.createElement(FilterField, _extends({
+    }, item.label), /*#__PURE__*/React.createElement(FilterField, _extends({
       className: "item-field"
     }, item, {
       onChange: function onChange(event) {
@@ -54,15 +54,15 @@ module.exports = React.createClass({
     });
   },
   render: function render() {
-    return React.createElement("div", {
+    return /*#__PURE__*/React.createElement("div", {
       className: znui.react.classname("zr-filter", this.props.className),
       style: this.props.style
-    }, React.createElement(znui.react.DataView, {
+    }, /*#__PURE__*/React.createElement(znui.react.DataView, {
       data: this.props.data,
       itemRender: this.__itemRender,
       onLoading: this.__onLoading,
       onFinished: this.__onFinished
-    }), this.state.loading && React.createElement(loader.Loader, {
+    }), this.state.loading && /*#__PURE__*/React.createElement(loader.Loader, {
       content: "...",
       loader: "circle",
       size: "size-smail",
