@@ -42,12 +42,17 @@
   padding: 0!important;
   font-size: 14px;
 }
+.zr-filter-field:hover > .filter-opt {
+  opacity: 0.8;
+}
 .zr-filter-field > .filter-opt {
   position: absolute;
   z-index: 1;
   left: 0;
   top: 0;
   margin: 4px;
+  opacity: 0.2;
+  transition: opacity 0.3s ease-in;
 }
 .zr-filter-field > .filter-opt > svg {
   background-color: #e4e2e2;

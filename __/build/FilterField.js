@@ -14,19 +14,29 @@ var OPTS = {
     value: '=',
     icon: 'faEquals'
   },
-  '>=': {
+  '>': {
     text: '大于',
+    value: '>',
+    icon: 'faGreaterThanEqual'
+  },
+  '>=': {
+    text: '大于等于',
     value: '>=',
     icon: 'faGreaterThanEqual'
   },
-  '=<': {
+  '<': {
     text: '小于',
-    value: '=<',
+    value: '<',
     icon: 'faLessThanEqual'
   },
-  '!=': {
+  '<=': {
+    text: '小于等于',
+    value: '<=',
+    icon: 'faLessThanEqual'
+  },
+  '<>': {
     text: '不等于',
-    value: '!=',
+    value: '<>',
     icon: 'faNotEqual'
   },
   '%': {
@@ -65,17 +75,19 @@ module.exports = React.createClass({
     });
     this.props.onChange && this.props.onChange(event, input);
 
-    if (event.target.tagName != 'INPUT') {
-      if (!this.state.opt) {
-        return alert('The opt is null.'), false;
-      }
-
-      if (!event.value) {
-        return alert('The value is null.'), false;
-      }
-
-      this.props.onFilterChange && this.props.onFilterChange(event, input);
+    if (event.target.tagName == 'INPUT' && (event.target.type == 'text' || event.target.type == 'password')) {
+      return false;
     }
+
+    if (!this.state.opt) {
+      return alert('The opt is null.'), false;
+    }
+
+    if (!event.value) {
+      return alert('The value is null.'), false;
+    }
+
+    this.props.onFilterChange && this.props.onFilterChange(event, input);
   },
   __InputEnter: function __InputEnter(event, input) {
     event.name = this.props.name;
@@ -166,16 +178,23 @@ module.exports = React.createClass({
       return null;
     }
 
-    var _props = zn.extend({}, this.props, {
+    var _inputProps = zn.extend({}, this.props, {
+      className: znui.react.classname('filter-field-input', this.props.inputClassName),
       onChange: this.__InputChange,
       onEnter: this.__InputEnter
     });
 
-    var _component = znui.react.createReactElement(_props.component || _props.render || inputs.Input, _props);
+    var _input = this.props.input || this.props.component || this.props.render || inputs.Input;
+
+    if (_input && typeof _input == 'function' && !_input.prototype.isReactComponent) {
+      _input = _input.call(null, this, _inputProps);
+    }
+
+    var _inputElement = znui.react.createReactElement(_input, _inputProps);
 
     return /*#__PURE__*/React.createElement("div", {
       className: znui.react.classname("zr-filter-field", this.props.className),
       disabled: this.props.disabled
-    }, this.__renderIcon(), _component);
+    }, this.__renderIcon(), _inputElement);
   }
 });

@@ -25,12 +25,20 @@
     padding: 0!important;
     font-size: 14px;
 
+    &:hover{
+        &>.filter-opt{
+            opacity: 0.8;
+        }
+    }
+
     &>.filter-opt{
         position: absolute;
         z-index: 1;
         left: 0;
         top: 0;
         margin: 4px;
+        opacity: 0.2;
+        transition: opacity 0.3s ease-in;
         &>svg{
             background-color: #e4e2e2;
             color: #8c8686;
