@@ -42,6 +42,10 @@
   padding: 0!important;
   font-size: 14px;
 }
+.zr-filter-field .icon {
+  width: 12px;
+  height: 12px;
+}
 .zr-filter-field:hover > .filter-opt {
   opacity: 0.8;
 }
@@ -165,6 +169,8 @@
 }
 .zr-filter-field-opts .opt svg {
   padding: 3px;
+  width: 12px;
+  height: 12px;
 }
 .zr-filter-field-opts .opt:hover {
   background-color: #3498db;
