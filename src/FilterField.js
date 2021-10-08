@@ -17,6 +17,7 @@ module.exports = React.createClass({
 	displayName: 'ZRFilterField',
 	getDefaultProps: function (){
 		return {
+			showOpt: false,
 			opts: ['%', '='],
 			icon: 'faFilter',
 			className: ''
@@ -25,9 +26,22 @@ module.exports = React.createClass({
 	getInitialState: function() {
 		return {
 			icon: this.props.icon,
-			opt: this.props.opt,
+			opt: this.props.opt || ((this.props.opts && this.props.opts.length) ? this.props.opts[0] : null) || "=",
 			value: this.props.value
 		}
+	},
+	setValue: function (value){
+		var _event = {
+			name: this.props.name,
+			opt: this.state.opt || '=',
+			optIcon: this.state.icon,
+			value: value
+		};
+		this.setState({
+			value: value
+		});
+		this.props.onChange && this.props.onChange(_event);
+		this.props.onFilterChange && this.props.onFilterChange(_event);
 	},
 	__InputChange: function (event, input){
 		event.name = this.props.name;
@@ -37,15 +51,15 @@ module.exports = React.createClass({
 			value: event.value
 		});
 		this.props.onChange && this.props.onChange(event, input);
-		if(event.target.tagName == 'INPUT' && (event.target.type == 'text' || event.target.type == 'password')) {
+		if(event.target && event.target.tagName == 'INPUT' && (event.target.type == 'text' || event.target.type == 'password')) {
 			return false;
 		}
 
 		if(!this.state.opt) {
-			return alert('The opt is null.'), false;
+			return zn.error('The opt is null.'), false;
 		}
 		if(!event.value) {
-			return alert('The value is null.'), false;
+			return zn.error('The value is null.'), false;
 		}
 		this.props.onFilterChange && this.props.onFilterChange(event, input);
 	},
@@ -123,17 +137,16 @@ module.exports = React.createClass({
 		}
 	},
 	__renderIcon: function (){
-		if(this.state.icon) {
-			return <popup.Dropdown 
-				className="filter-opt" 
-				popover={{
-					render: this.__iconClickRender,
-					onWindowInsideContainerEvent: function (event, popover){
-						return true;
-					}
-				}}>
-				{this.__iconView(this.state.icon)}
-			</popup.Dropdown>;
+		if(this.props.opts && this.props.opts.length) {
+			if(this.state.icon) {
+				return <popup.Dropdown 
+					className="filter-opt" 
+					popover={{
+						render: this.__iconClickRender
+					}}>
+					{this.__iconView(this.state.icon)}
+				</popup.Dropdown>;
+			}
 		}
 
 		return null;
@@ -157,8 +170,10 @@ module.exports = React.createClass({
 		var _inputElement = znui.react.createReactElement(_input, _inputProps);
 		return (
 			<div className={znui.react.classname("zr-filter-field", this.props.className)} disabled={this.props.disabled}>
-				{ this.__renderIcon() }
-				{ _inputElement }
+				{ this.props.showOpt && this.__renderIcon() }
+				<div className="input-container">
+					{_inputElement }
+				</div>
 			</div>
 		);
 	}
