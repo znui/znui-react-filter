@@ -94,12 +94,17 @@ module.exports = React.createClass({
     if (!this.state.opt) {
       return zn.error('The opt is null.'), false;
     }
-
-    if (!event.value) {
-      return zn.error('The value is null.'), false;
+    /*
+    if(event.value === null || event.value === undefined) {
+    	return zn.error('The value is null or undefined.'), false;
     }
+    	if(!event.value && !this.props.emptyValueEnabled){
+    	return zn.error("The value is '' or 0."), false;
+    }
+    */
 
-    this.props.onFilterChange && this.props.onFilterChange(event, input);
+
+    this.props.onFilterChange && this.props.onFilterChange(event, input, this);
   },
   __InputEnter: function __InputEnter(event, input) {
     event.name = this.props.name;
