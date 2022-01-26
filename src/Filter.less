@@ -1,5 +1,12 @@
 .zr-filter{
     position: relative;
+    display: flex;
+    &.flex-row{
+        flex-direction: row !important;
+    }
+    &.flex-column{
+        flex-direction: column !important;
+    }
     .filter-item{
         display: flex;
         align-items: center;
@@ -13,9 +20,13 @@
         }
         .zr-filter-field{
             margin: 3px;
-            flex: 1;
             border: 1px solid #e4e2e2;
-
+            &.flex {
+                flex: 1 !important;
+            }
+            &.no-border{
+                border: none !important;
+            }
         }
     }
     .zr-loader{

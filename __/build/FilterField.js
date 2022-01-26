@@ -349,9 +349,18 @@ module.exports = React.createClass({
 
     var _inputElement = znui.react.createReactElement(_input, _inputProps);
 
+    var _style = znui.react.style(this.props.style, {
+      width: this.props.width ? this.props.width + 'px' : null
+    });
+
+    if (!_style.width) {
+      _style.flex = 1;
+    }
+
     return /*#__PURE__*/React.createElement("div", {
       className: znui.react.classname("zr-filter-field", this.props.className),
-      disabled: this.props.disabled
+      disabled: this.props.disabled,
+      style: _style
     }, this.props.showOpt && this.__renderIcon(), /*#__PURE__*/React.createElement("div", {
       className: "input-container"
     }, _inputElement));

@@ -1,6 +1,6 @@
 {
   "name": "znui-react-filter",
-  "version": "2.0.10",
+  "version": "2.0.11",
   "description": "Web filter component.",
   "main": "index.js",
   "scripts": {
