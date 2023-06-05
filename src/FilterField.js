@@ -25,12 +25,16 @@ module.exports = React.createClass({
 	},
 	getInitialState: function() {
 		return {
+			key: zn.uuid(),
 			icon: this.props.icon,
 			opt: this.props.opt || ((this.props.opts && this.props.opts.length) ? this.props.opts[0] : null) || "=",
 			value: this.props.value
 		}
 	},
 	setValue: function (value){
+		if(zn.is(value, 'string')) {
+			value = value.trim();
+		}
 		var _event = {
 			name: this.props.name,
 			opt: this.state.opt || '=',
@@ -87,6 +91,26 @@ module.exports = React.createClass({
 		}
 		this.props.onFilterChange && this.props.onFilterChange(event, input);
 	},
+	__onCancleClick: function (evt){
+		evt.stopPropagation();
+		evt.value = '';
+		evt.name = this.props.name;
+		evt.opt = this.state.opt;
+		evt.optIcon = this.state.icon;
+		this.setState({
+			key: zn.uuid(),
+			value: evt.value
+		});
+
+		if(!this.state.opt) {
+			return alert('The opt is null.'), false;
+		}
+		this.props.onCancel && this.props.onCancel(this.props.name);
+		this.props.onFilterChange && this.props.onFilterChange(evt, null);
+	},
+	__onFilterChange: function (){
+
+	},
 	__onOptItemClick: function (opt, index){
 		if(opt.value == 'cancel') {
 			this.setState({
@@ -111,16 +135,20 @@ module.exports = React.createClass({
 	__optItemRender: function (item, index){
 		var _opt = OPTS[item];
 		if(_opt){
-			return <div className={"opt " + (this.state.opt == item ? 'curr' : '')} key={index} onClick={()=>this.__onOptItemClick(_opt, index)} >
-				{_opt.icon && this.__iconView(_opt.icon)}
-				{_opt.text && <span>{_opt.text}</span>}
-			</div>;
+			return (
+				<div className={"opt " + (this.state.opt == item ? 'curr' : '')} key={index} onClick={()=>this.__onOptItemClick(_opt, index)} >
+					{_opt.icon && this.__iconView(_opt.icon)}
+					{_opt.text && <span>{_opt.text}</span>}
+				</div>
+			);
 		}
 	},
 	__iconClickRender: function (){
-		return <ul className="zr-filter-field-opts">
-			<znui.react.DataView data={[].concat(this.props.opts).concat(['cancel'])} itemRender={this.__optItemRender} />
-		</ul>;
+		return (
+			<ul className="zr-filter-field-opts">
+				<znui.react.DataView data={[].concat(this.props.opts).concat(['cancel'])} itemRender={this.__optItemRender} />
+			</ul>
+		);
 	},
 	__iconView: function (icon){
 		switch(icon){
@@ -147,13 +175,16 @@ module.exports = React.createClass({
 	__renderIcon: function (){
 		if(this.props.opts && this.props.opts.length) {
 			if(this.state.icon) {
-				return <popup.Dropdown 
-					className="filter-opt" 
-					popover={{
-						render: this.__iconClickRender
-					}}>
-					{this.__iconView(this.state.icon)}
-				</popup.Dropdown>;
+				return (
+					<popup.Dropdown 
+						className="filter-opt" 
+						style={{ display: 'flex' }}
+						popover={{
+							render: this.__iconClickRender
+						}}>
+						{this.__iconView(this.state.icon)}
+					</popup.Dropdown>
+				);
 			}
 		}
 
@@ -165,6 +196,7 @@ module.exports = React.createClass({
 		}
 
 		var _inputProps = zn.extend({}, this.props, {
+			key: this.state.key,
 			className: znui.react.classname('filter-field-input', this.props.inputClassName),
 			onChange: this.__InputChange,
 			onEnter: this.__InputEnter
@@ -182,9 +214,16 @@ module.exports = React.createClass({
 		}
 		return (
 			<div className={znui.react.classname("zr-filter-field", this.props.className)} disabled={this.props.disabled} style={_style}>
-				{ this.props.showOpt && this.__renderIcon() }
+				<div className='filter-tools'>
+					{ this.props.showOpt && this.__renderIcon() }
+					{
+						(this.state.value != null && this.state.value != '') && (
+							<i onClick={this.__onCancleClick} data-zr-popup-tooltip="取消搜索查询" className='icon-remove fa fa-remove' />
+						)
+					}
+				</div>
 				<div className="input-container">
-					{_inputElement }
+					{ _inputElement }
 				</div>
 			</div>
 		);

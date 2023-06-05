@@ -51,9 +51,36 @@
   line-height: 15px;
   font-size: 15px;
   height: 30px;
-  padding: 0!important;
+  padding: 0px !important;
   font-size: 14px;
-  background-color: #fff6f6;
+  background-color: #fffbfb;
+  /*
+    &>.filter-opt{
+        position: absolute;
+        z-index: 1;
+        left: 0;
+        top: 0;
+        margin: 4px;
+        opacity: 0.2;
+        transition: opacity 0.3s ease-in;
+        &>svg{
+            background-color: #e4e2e2;
+            color: #8c8686;
+            font-size: 12px;
+            padding: 3px;
+            border-radius: 3px;
+            min-width: 14px;
+            min-height: 14px;
+            cursor: pointer;
+            &:hover{
+                opacity: 0.8;
+            }
+            &:active{
+                color: #615c5c;
+            }
+        }
+    }
+    */
 }
 .zr-filter-field .icon {
   width: 12px;
@@ -82,30 +109,32 @@
 .zr-filter-field .input-container > input:focus {
   background-color: #f1f1f5 !important;
 }
-.zr-filter-field > .filter-opt {
+.zr-filter-field > .filter-tools {
   position: absolute;
   z-index: 1;
-  left: 0;
-  top: 0;
+  left: 0px;
+  top: 0px;
+  bottom: 0px;
   margin: 4px;
-  opacity: 0.2;
+  opacity: 0;
   transition: opacity 0.3s ease-in;
+  cursor: pointer;
+  align-items: center;
+  display: flex;
 }
-.zr-filter-field > .filter-opt > svg {
-  background-color: #e4e2e2;
-  color: #8c8686;
-  font-size: 12px;
+.zr-filter-field:hover > .filter-tools {
+  opacity: 0.8 !important;
+}
+.zr-filter-field .icon-remove {
+  color: #e74b4b;
   padding: 3px;
   border-radius: 3px;
-  min-width: 14px;
-  min-height: 14px;
-  cursor: pointer;
+  text-align: center;
+  background-color: #ffffff;
 }
-.zr-filter-field > .filter-opt > svg:hover {
-  opacity: 0.8;
-}
-.zr-filter-field > .filter-opt > svg:active {
-  color: #615c5c;
+.zr-filter-field .icon-remove:hover {
+  color: red;
+  font-weight: bolder;
 }
 .zr-filter-field > .filter-field-input {
   width: 100%;
