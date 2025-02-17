@@ -218,7 +218,7 @@ module.exports = React.createClass({
 					{ this.props.showOpt && this.__renderIcon() }
 					{
 						(this.state.value != null && this.state.value != '') && (
-							<i onClick={this.__onCancleClick} data-zr-popup-tooltip="取消搜索查询" className='icon-remove fa fa-remove' />
+							<i onClick={this.__onCancleClick} data-zr-popup-tooltip="取消(Cancel)" className='icon-remove fa fa-remove' />
 						)
 					}
 				</div>
